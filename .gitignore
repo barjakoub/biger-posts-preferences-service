@@ -1,3 +1,4 @@
 /node_modules/
 app.yaml
 src/config/firestore/Firestore.json
+src/config/cloud_storage/CloudStorage.json

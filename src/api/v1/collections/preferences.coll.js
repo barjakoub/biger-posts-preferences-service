@@ -47,8 +47,12 @@ class Preferences {
     Preferences.#send = {
       placeTypes: []
     };
-    for (const type of typesdata) {
-      Preferences.#send.placeTypes.push(type);
+    if (Array.isArray(typesdata)) {
+      for (const type of typesdata) {
+        Preferences.#send.placeTypes.push(type);
+      }
+    } else {
+      Preferences.#send.placeTypes = typesdata;
     }
 
     return this;

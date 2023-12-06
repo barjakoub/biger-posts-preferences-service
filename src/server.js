@@ -1,7 +1,10 @@
 const express = require('express');
-const multer = require('multer');
+const uploads = require('./api/v1/helpers/request._file.js');
+// const multer = require('multer');
 const app = express();
-const upload = multer();
+// const upload = multer({
+//   dest: 'uploads/'
+// });
 
 const preferencesRoute = require('./api/v1/routes/_route.v1.js');
 
@@ -15,7 +18,7 @@ app.use(express.Router({
 /* content-type x-www-form-urlencoded */
 app.use(express.urlencoded({ extended: true }));
 /* content-type multipart/form-data */
-app.use(upload.none());
+app.use(uploads); /* TEMPORARY INACTIVE */
 /* disable x-powered-by Express Header */
 app.set('x-powered-by', false);
 /* determine IP address of the client connected */
@@ -29,24 +32,10 @@ app.get('/', (req, res) => {
     .end();
 });
 
-app.put('/test', (req, res, next) => {
-  // console.info(req.body);
-  // console.info(req.body.type);
-  // let filteredRequest = {};
-  // for (const [prop, val] of Object.entries(req.body)) {
-  //   if (val === '') {
-  //     continue;
-  //   }
-  //   // console.info(`${prop}: ${val}`);
-  //   filteredRequest[`preferences.${prop}`] = val;
-  // }
+app.post('/test', (req, res, next) => {
+  console.info(req.file.filename);
   console.info('MIDDLEWARE');
   next()
-  // console.info(filteredRequest)
-  // res.json({
-  //   status: "ok",
-  //   filtered: filteredRequest
-  // })
 }, (req, res) => {
   console.info('AFTER PASS THE MIDDLEWARE');
   res.json({
@@ -55,7 +44,7 @@ app.put('/test', (req, res, next) => {
 });
 
 /**
- * using preferences route.
+ * using preferences & posts route.
  */
 app.use(preferencesRoute);
 

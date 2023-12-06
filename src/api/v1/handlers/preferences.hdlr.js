@@ -30,6 +30,7 @@ async function StorePreferences(req, res) {
 async function GetPreferences(req, res) {
   const token = req.get('Authorization').substring(7);
   const formatted = req.query.formatted?.toLowerCase() === 'true' ? true : false;
+  console.info(`formatted: ${formatted}`);
   try {
     const decoded = jwt.verify(token, 'ch2-ps514');
     const User = new UsersService(decoded.documentId);
@@ -114,6 +115,7 @@ function PlaceTypesParamCheck(req, res, next) {
 async function PlaceTypes(req, res) {
   const token = req.get('Authorization').substring(7);
   const updating = req.query?.update !== undefined ? req.query.update : 'default';
+  console.info(updating);
   /* PASS */
   try {
     const decoded = jwt.verify(token, 'ch2-ps514');

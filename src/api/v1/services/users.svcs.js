@@ -1,4 +1,4 @@
-const { dateTime, fs_databases, FieldValue } = require('../../../config/firestore/FS_init.js');
+const { dateTime, fs_databases, FieldValue } = require('../../../config/firestore/firestore_init.js');
 const Preferences = require('../collections/preferences.coll.js');
 
 class UsersService {
