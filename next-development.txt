@@ -3,9 +3,10 @@ next:
   Adding comment collection: community_posts
   Google Maps API Service: gmaps_api.service
   Adding location: users
-  Post Photo: more than one photo
+  Post Photo: more than one photo, make strict photo size
   Post detail: change puslisher to user's name, not user's email
   Post detail: get post detail specified document id
+  Post detail: get user's post collection
 
 important:
   Beautify and Make effective code, eslint

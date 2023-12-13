@@ -15,15 +15,19 @@ class UsersService {
    * @returns User Preferences value, whether include formatted address or not.
    */
   async getPreferences(formatted = false) {
-    const getPref = (await this.#users.doc(this.documentId).get()).data().preferences;
+    const getPref = (await this.#users.doc(this.documentId).get()).data(); /* __DEFAULT__ .preferences */
     if (Object.keys(getPref).length !== 0) {
       if (formatted === true) {
         return {
-          addressComponents: getPref,
-          formattedAddress: Preferences.FormattedAddress(getPref).get()
+          addressComponents: getPref.preferences,
+          formattedAddress: Preferences.FormattedAddress(getPref.preferences).get(),
+          placeTypes: getPref.placeTypes
         }
       } else {
-        return getPref;
+        return {
+          addressComponents: getPref.preferences,
+          placeTypes: getPref.placeTypes
+        };
       }
     } else {
       return {
