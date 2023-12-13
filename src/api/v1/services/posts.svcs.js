@@ -72,17 +72,21 @@ class PostService {
    * @returns 
    */
   static async getPostCollection(pageNumber) {
-    if (pageNumber === 1) {
-      return {
-        totalPages: 1,
-        snapshot: await this.#posts.orderBy('dateCreated', 'desc').limit(20).get()
-      };
-    }
+    /**
+     * to return totalPages
+     */
     const postCollectionsSize = (await this.#posts.get()).size;
     /**
      * probably get an error if totalPage < pageNumber {user request}
      */
     const totalPages = Math.ceil(postCollectionsSize / 20);
+
+    if (pageNumber === 1) {
+      return {
+        totalPages,
+        snapshot: await this.#posts.orderBy('dateCreated', 'desc').limit(20).get()
+      };
+    }
     if (pageNumber > totalPages) {
       return {
         error: true,
