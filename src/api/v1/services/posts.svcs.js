@@ -5,6 +5,8 @@ const uniques = require('../helpers/genDocId.js');
 class PostService {
   #_posts = fs_databases.collection('community_posts');
   static #_bigerposts = _cloudstorage.bucket('biger-posts');
+  static #posts = fs_databases.collection('community_posts');
+
   constructor(documentId = null) {
     if (documentId === null) {
       return {};
@@ -29,8 +31,24 @@ class PostService {
     }
     const storing = await this.#_posts.add(structuredPostData);
     /* storing.id */
-    console.info(storing);
     return storing;
+  }
+
+  async updatePost(updateData) {
+    /**
+     * only update title and text, other attribute will fixed next development
+     */
+    let postUpdateData = {
+      dateUpdated: dateTime.serverTimestamp()
+    };
+    for (const [attr, value] of Object.entries(updateData)) {
+      postUpdateData[attr] = value;
+    }
+    const updatingPost = await this.#_posts.doc(this.documentId).update(postUpdateData);
+    /**
+     * if any error occurs, just check and test it with '_writeTime' property
+     */
+    return updatingPost;
   }
 
   static async checkBucket() {
@@ -43,11 +61,52 @@ class PostService {
     const options = {
       destination: `images/${extraxtPath[extraxtPath.length - 1]}`,
       metadata: metadata,
-      // userProject: 'capstone-ch2-ps514'
     }
     const uploadingFile = await this.#_bigerposts.upload(path, options);
     /* PASS */
     return uploadingFile;
+  }
+  /**
+   * 
+   * @param {Number} pageNumber Number of page requested
+   * @returns 
+   */
+  static async getPostCollection(pageNumber) {
+    if (pageNumber === 1) {
+      return {
+        totalPages: 1,
+        snapshot: await this.#posts.orderBy('dateCreated', 'desc').limit(20).get()
+      };
+    }
+    const postCollectionsSize = (await this.#posts.get()).size;
+    /**
+     * probably get an error if totalPage < pageNumber {user request}
+     */
+    const totalPages = Math.ceil(postCollectionsSize / 20);
+    if (pageNumber > totalPages) {
+      return {
+        error: true,
+        message: `next page data is not available`
+      }
+    }
+    const remainingCollection = (pageNumber - 1) * 20;
+    const snapshot = await this.#posts
+      .orderBy('dateCreated', 'desc')
+      .startAfter((await this.#posts.orderBy('dateCreated', 'desc').get()).docs[remainingCollection - 1])
+      .limit(20)
+      .get();
+    return {
+      totalPages,
+      snapshot
+    };
+  }
+
+  static async like(postDocumentId) {
+    const like = this.#posts.doc(postDocumentId).update({
+      likes: FieldValue.increment(1)
+    });
+
+    return like;
   }
 }
 

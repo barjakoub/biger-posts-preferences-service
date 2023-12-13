@@ -8,7 +8,6 @@ async function StorePreferences(req, res) {
     const User = new UsersService(decoded.documentId);
     const addingPreferences = await User.addPreferences(req.body);
     if (addingPreferences.result !== null) {
-      // ADD HEADER AND STATUS CODE
       return res.status(201)
         .append('X-Powered-By', 'Biger x Barjakoub')
         .json({
@@ -63,12 +62,10 @@ async function GetPreferences(req, res) {
 
 async function UpdatePreferences(req, res) {
   const token = req.get('Authorization').substring(7);
-  /* PROBLEM : ketika pengguna mengirimkan seluruh property pada req.body, how to handle it? */
   try {
     const decoded = jwt.verify(token, 'ch2-ps514');
     const User = new UsersService(decoded.documentId);
     const updatingPreferences = await User.updatePreferences(req.body);
-    /* PROBLEMMMMMM */
     if (updatingPreferences?.result === undefined) {
       return res.status(200)
         .append('X-Powered-By', 'Biger x Barjakoub')
@@ -95,7 +92,6 @@ async function UpdatePreferences(req, res) {
 
 function PlaceTypesParamCheck(req, res, next) {
   const param = req.params.types;
-  /* PASS */
   console.info('CHECKING REQUEST PARAM...');
   if (param !== 'types') {
     console.info('PARAM UNDEFINED, FAIL!!!')
@@ -115,15 +111,10 @@ function PlaceTypesParamCheck(req, res, next) {
 async function PlaceTypes(req, res) {
   const token = req.get('Authorization').substring(7);
   const updating = req.query?.update !== undefined ? req.query.update : 'default';
-  console.info(updating);
-  /* PASS */
   try {
     const decoded = jwt.verify(token, 'ch2-ps514');
-    /* PASS */
     const User = new UsersService(decoded.documentId);
-    /* PASS */
     const processTypes = await User.addPlaceTypes(req.body, updating);
-    /* PASS */
     if (processTypes?.result === undefined) {
       return res.json({
         success: true,

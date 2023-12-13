@@ -1,0 +1,12 @@
+next: 
+  Updating Post: community_posts
+  Adding comment collection: community_posts
+  Google Maps API Service: gmaps_api.service
+  Adding location: users
+  Post Photo: more than one photo
+  Post detail: change puslisher to user's name, not user's email
+  Post detail: get post detail specified document id
+
+important:
+  Beautify and Make effective code, eslint
+  Add documentation on every function or line code

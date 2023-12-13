@@ -29,12 +29,7 @@ class Preferences {
    */
   static FormattedAddress(prefdata) {
     /* NEXT DEVELOPMENT: MAKE THE RIGHT FORMATTED ADDRESS IF ONE OF THE VALUE EVALUATES TO NULL VALUE */
-    (Preferences.#send === undefined) ? Preferences.#send = `${prefdata.route}, ${prefdata.administrative_area_level_5}, ${prefdata.administrative_area_level_4}, ${prefdata.administrative_area_level_3}, ${prefdata.administrative_area_level_2}, ${prefdata.administrative_area_level_1} ${prefdata.postal_code}, Indonesia` : Preferences.#send;
-    /* KETIKA PARAMETER prefdata undefined, MAKA DATA YANG DIGUNAKAN ADALAH Preferences.#send */
-    // Preferences.#send = {
-    //   addressComponents: Preferences.#send,
-    //   formattedAddress: `${prefdata.route}, ${prefdata.administrative_area_level_5}, ${prefdata.administrative_area_level_4}, ${prefdata.administrative_area_level_3}, ${prefdata.administrative_area_level_2}, ${prefdata.administrative_area_level_1} ${prefdata.postal_code}, Indonesia`
-    // }
+    Preferences.#send = `${prefdata.route}, ${prefdata.administrative_area_level_5}, ${prefdata.administrative_area_level_4}, ${prefdata.administrative_area_level_3}, ${prefdata.administrative_area_level_2}, ${prefdata.administrative_area_level_1} ${prefdata.postal_code}, Indonesia`;
 
     return this;
   }

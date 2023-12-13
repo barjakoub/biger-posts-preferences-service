@@ -107,7 +107,6 @@ class UsersService {
           /**
            * @returns {object} placeTypes property with Array value.
            */
-          // return Preferences.PlaceTypes(requestTypes.types).get();
           return await this.getPlaceTypes();
         } else {
           /**
@@ -167,7 +166,6 @@ class UsersService {
         const updateDelTypes = await this.#users.doc(this.documentId).update({
           placeTypes: FieldValue.arrayRemove(...filteredTypes)
         });
-        /* PASS */
         if ('_writeTime' in updateDelTypes) {
           return await this.getPlaceTypes();
         } else {
